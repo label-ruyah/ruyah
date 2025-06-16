@@ -5,13 +5,148 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Checkout - Ruyah</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      background: #faedcd;
+      color: #7f212f;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background: #7f212f;
+      color: #faedcd;
+      text-align: center;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    #cart-label {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 18px;
+      background-color: #7f212f;
+      color: #faedcd;
+      padding: 8px 12px;
+      border-radius: 6px;
+    }
+
+    .checkout-box {
+      background-color: #fff8ec;
+      border: 2px solid #7f212f;
+      padding: 20px;
+      margin: 30px auto;
+      border-radius: 12px;
+      max-width: 500px;
+      box-shadow: 0 4px 12px rgba(127, 33, 47, 0.1);
+    }
+
+    .checkout-box h2 {
+      margin-top: 0;
+      text-align: center;
+      color: #7f212f;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input {
+      padding: 12px;
+      border: 2px solid #7f212f;
+      border-radius: 8px;
+      font-size: 16px;
+      background-color: white;
+      color: #7f212f;
+    }
+
+    input::placeholder {
+      color: #a35a69;
+    }
+
+    input:invalid {
+      border-color: #c0392b;
+      background-color: #ffe5e0;
+    }
+
+    button {
+      background-color: #7f212f;
+      color: #faedcd;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #65151f;
+    }
+
+    .pay-now-container {
+      display: none;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .pay-now-btn {
+      background-color: #7f212f;
+      color: #faedcd;
+      padding: 15px 30px;
+      font-size: 20px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 10px;
+      transition: background-color 0.3s ease;
+    }
+
+    .pay-now-btn:hover {
+      background-color: #65151f;
+    }
+
+    .product-summary {
+      background-color: #fff0e1;
+      border: 1.5px dashed #7f212f;
+      padding: 12px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-size: 16px;
+      color: #7f212f;
+    }
+
+    @media (max-width: 600px) {
+      .checkout-box {
+        width: 90%;
+        padding: 15px;
+      }
+
+      .pay-now-btn {
+        width: 100%;
+        text-align: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Checkout</h1>
-  </header>
+  <header>Ruyah - Checkout</header>
+  <div id="cart-label">Cart</div>
 
-  <main>
+  <div class="checkout-box">
+    <h2>Purchase Details</h2>
+
+    <div class="product-summary">
+      <p><strong>Product:</strong> Dreamy Summer Kurta</p>
+      <p><strong>Size:</strong> M</p>
+      <p><strong>Price:</strong> ₹999</p>
+    </div>
+
     <form onsubmit="return handleForm(event)">
       <input type="text" placeholder="Full Name" required />
       <input type="text" placeholder="Address" required />
@@ -20,10 +155,10 @@
       <button type="submit">Continue to Pay</button>
     </form>
 
-    <div class="pay-now-container" id="payNowSection" style="display:none;">
-      <a href="sabreena24126@oksbi" class="pay-now-btn">Pay Now</a>
+    <div class="pay-now-container" id="payNowSection">
+      <a href="upi://pay?pa=YOUR_UPI_ID&pn=Ruyah&cu=INR" class="pay-now-btn">Pay Now</a>
     </div>
-  </main>
+  </div>
 
   <script>
     function handleForm(event) {
