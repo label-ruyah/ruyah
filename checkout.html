@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ruyah - Your Mood, Our Fit</title>
+  <title>RUYAH</title>
   <style>
     :root {
       --bg-color: #faedcd;
@@ -156,6 +156,11 @@
         name: "Sample ₹1 Item",
         price: "₹1",
         img: "https://via.placeholder.com/300x300?text=Rs1+Item"
+      },
+      {
+        name: "Test Product ₹1",
+        price: "₹1",
+        img: "https://via.placeholder.com/300x300?text=Test+Product+Rs1"
       }
     ];
 
@@ -166,6 +171,7 @@
 
     function renderProducts() {
       const container = document.getElementById('productContainer');
+      container.innerHTML = '';
       products.forEach((product, index) => {
         const div = document.createElement('div');
         div.className = 'product';
@@ -206,6 +212,17 @@
       addToCart(index);
       window.location.href = 'checkout.html';
     }
+
+    // Ensure dropdowns don’t disappear
+    window.addEventListener("click", function (e) {
+      const dropdowns = document.querySelectorAll("select");
+      dropdowns.forEach(select => {
+        if (select.contains(e.target)) {
+          select.size = select.options.length;
+          select.onblur = () => select.size = 0;
+        }
+      });
+    });
 
     renderProducts();
   </script>
