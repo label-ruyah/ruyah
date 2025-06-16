@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>RUYAH</title>
+  <title>Checkout - Ruyah</title>
   <style>
     :root {
       --bg-color: #faedcd;
@@ -15,216 +15,158 @@
       font-family: sans-serif;
       background-color: var(--bg-color);
       color: var(--accent);
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      background-color: var(--accent);
-      color: var(--bg-color);
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 10;
-    }
-
-    .menu-button {
-      font-size: 24px;
-      background: none;
-      border: none;
-      color: var(--bg-color);
-      cursor: pointer;
-    }
-
-    .menu {
-      display: none;
-      position: absolute;
-      top: 60px;
-      left: 20px;
-      background-color: #fff8ec;
-      border: 2px solid var(--accent);
-      border-radius: 10px;
-      padding: 10px;
-    }
-
-    .menu a {
-      display: block;
-      color: var(--accent);
-      padding: 5px 0;
-      text-decoration: none;
-    }
-
-    .products {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
       padding: 20px;
     }
 
-    .product {
+    h1 {
+      text-align: center;
+    }
+
+    .cart-item {
       background-color: #fff8ec;
       border: 2px solid var(--accent);
       border-radius: 10px;
       padding: 15px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin: 10px 0;
     }
 
-    .product img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      margin-bottom: 10px;
+    .form-section {
+      margin-top: 30px;
+      background-color: #fff8ec;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid var(--accent);
     }
 
-    .product h3, .product p {
-      margin: 5px 0;
-      text-align: center;
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
     }
 
-    .product select, .product button {
+    input, textarea {
       width: 100%;
       padding: 8px;
-      margin-top: 10px;
+      margin-top: 5px;
       border-radius: 6px;
-      font-size: 14px;
-    }
-
-    .product select {
       border: 1px solid var(--accent);
       background-color: var(--bg-color);
       color: var(--accent);
     }
 
-    .product button {
+    input:invalid {
+      border-color: red;
+    }
+
+    .pay-btn {
+      display: block;
+      margin: 30px auto 0;
+      padding: 12px 30px;
       background-color: var(--accent);
       color: var(--bg-color);
       border: none;
+      border-radius: 6px;
+      font-size: 16px;
       font-weight: bold;
       cursor: pointer;
     }
 
-    .product button:hover {
+    .pay-btn:hover {
       background-color: #65151f;
     }
 
-    @media (max-width: 768px) {
-      .product {
-        width: 100%;
-      }
+    .empty {
+      text-align: center;
+      font-size: 18px;
+      margin-top: 50px;
+      color: #999;
+    }
 
-      .product select, .product button {
-        font-size: 16px;
+    .alert {
+      background-color: #fff0e6;
+      color: var(--accent);
+      padding: 10px;
+      border: 1px solid var(--accent);
+      border-radius: 6px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .pay-btn {
+        width: 100%;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <button class="menu-button" onclick="toggleMenu()">☰</button>
-    <div><strong>RUYAH</strong></div>
-  </header>
+  <h1>Your Cart</h1>
 
-  <div class="menu" id="menu">
-    <a href="index.html">Home</a>
-    <a href="checkout.html">Cart</a>
-  </div>
+  <div id="cartContainer"></div>
 
-  <div class="products" id="productContainer"></div>
+  <form class="form-section" id="checkoutForm" onsubmit="return handlePayment()">
+    <label for="name">Name</label>
+    <input type="text" id="name" required>
+
+    <label for="address">Address</label>
+    <textarea id="address" required></textarea>
+
+    <label for="email">Email</label>
+    <input type="email" id="email" required>
+
+    <label for="phone">Phone</label>
+    <input type="tel" id="phone" pattern="[0-9]{10}" required>
+
+    <button type="submit" id="payButton" class="pay-btn">PAY NOW</button>
+  </form>
 
   <script>
-    const products = [
-      {
-        name: "Oversized T-shirt",
-        price: "₹599",
-        img: "https://via.placeholder.com/300x300?text=Oversized+T-shirt"
-      },
-      {
-        name: "Hoodie",
-        price: "₹1099",
-        img: "https://via.placeholder.com/300x300?text=Hoodie"
-      },
-      {
-        name: "Crop Top",
-        price: "₹499",
-        img: "https://via.placeholder.com/300x300?text=Crop+Top"
-      },
-      {
-        name: "Sample ₹1 Item",
-        price: "₹1",
-        img: "https://via.placeholder.com/300x300?text=Rs1+Item"
-      },
-      {
-        name: "Test Product ₹1",
-        price: "₹1",
-        img: "https://via.placeholder.com/300x300?text=Test+Product+Rs1"
-      }
-    ];
+    const cartData = JSON.parse(localStorage.getItem("ruyah_cart")) || [];
+    const cartContainer = document.getElementById("cartContainer");
+    const payButton = document.getElementById("payButton");
+    const form = document.getElementById("checkoutForm");
 
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
-    }
-
-    function renderProducts() {
-      const container = document.getElementById('productContainer');
-      container.innerHTML = '';
-      products.forEach((product, index) => {
-        const div = document.createElement('div');
-        div.className = 'product';
+    if (cartData.length === 0) {
+      cartContainer.innerHTML = '<div class="empty">Your cart is empty</div>';
+      form.style.display = "none";
+    } else {
+      cartData.forEach((item, index) => {
+        const div = document.createElement("div");
+        div.className = "cart-item";
         div.innerHTML = `
-          <img src="${product.img}" alt="${product.name}" />
-          <h3>${product.name}</h3>
-          <p>${product.price}</p>
-          <label for="size-${index}">Size:</label>
-          <select id="size-${index}">
-            <option value="M" selected>M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-          </select>
-          <label for="style-${index}">Style:</label>
-          <select id="style-${index}">
-            <option value="Regular Fit" selected>Regular Fit</option>
-            <option value="Oversized">Oversized</option>
-            <option value="Slim Fit">Slim Fit</option>
-          </select>
-          <button onclick="addToCart(${index})">Add to Cart</button>
-          <button onclick="buyNow(${index})">Buy Now</button>
+          <strong>${item.name}</strong><br>
+          Size: ${item.size}<br>
+          Style: ${item.style}<br>
+          Price: ${item.price}
         `;
-        container.appendChild(div);
+        cartContainer.appendChild(div);
       });
     }
 
-    function addToCart(index) {
-      const size = document.getElementById(`size-${index}`).value;
-      const style = document.getElementById(`style-${index}`).value;
-      const product = products[index];
-      const cart = JSON.parse(localStorage.getItem('ruyah_cart')) || [];
-      cart.push({ name: product.name, price: product.price, size, style });
-      localStorage.setItem('ruyah_cart', JSON.stringify(cart));
-      alert(`${product.name} added to cart with Size: ${size} and Style: ${style}`);
+    function handlePayment() {
+      const name = document.getElementById("name").value;
+      const address = document.getElementById("address").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+
+      if (!name || !address || !email || !phone) {
+        alert("Please fill out all fields.");
+        return false;
+      }
+
+      // 🧾 Replace below with your UPI ID
+      const upiID = "YOUR_UPI_ID@upi";
+
+      const totalAmount = cartData.reduce((total, item) => {
+        const number = parseInt(item.price.replace("₹", "").trim());
+        return total + number;
+      }, 0);
+
+      const upiLink = `upi://pay?pa=${upiID}&pn=RUYAH&am=${totalAmount}&cu=INR`;
+      window.location.href = upiLink;
+      return false;
     }
-
-    function buyNow(index) {
-      addToCart(index);
-      window.location.href = 'checkout.html';
-    }
-
-    // Ensure dropdowns don’t disappear
-    window.addEventListener("click", function (e) {
-      const dropdowns = document.querySelectorAll("select");
-      dropdowns.forEach(select => {
-        if (select.contains(e.target)) {
-          select.size = select.options.length;
-          select.onblur = () => select.size = 0;
-        }
-      });
-    });
-
-    renderProducts();
   </script>
 
 </body>
