@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Checkout – Ruyah</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Checkout</h1>
+    <p>Confirm your mood-fit!</p>
+  </header>
+
+  <main>
+    <section class="products">
+      <div id="checkout-items"></div>
+      <h3 id="checkout-total"></h3>
+      <p>UPI Payment / QR Coming Soon!</p>
+      <a href="index.html" class="buy-btn">← Continue Shopping</a>
+    </section>
+  </main>
+
+  <script>
+    // Pull cart data from previous page
+    const params = new URLSearchParams(window.location.search);
+    const items = JSON.parse(decodeURIComponent(params.get('items') || '[]'));
+    const container = document.getElementById('checkout-items');
+    const totalElem = document.getElementById('checkout-total');
+
+    let total = 0;
+    items.forEach(item => {
+      const div = document.createElement('div');
+      div.innerHTML = `<p><strong>${item.name}</strong> — ₹${item.price}</p>`;
+      container.appendChild(div);
+      total += item.price;
+    });
+
+    totalElem.textContent = `Total: ₹${total}`;
+  </script>
+</body>
+</html>
