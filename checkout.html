@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>Checkout – Ruyah</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -13,7 +14,16 @@
   <main>
     <div id="checkout-items"></div>
     <h3 id="checkout-total"></h3>
-    <a id="upi-button" class="buy-btn" href="#" target="_blank">Pay Now via UPI</a>
+
+    <form id="checkout-form">
+      <input type="text" placeholder="Name" required />
+      <input type="email" placeholder="Email" required />
+      <input type="tel" placeholder="Phone Number" required />
+      <textarea placeholder="Address" required></textarea>
+      <button type="submit">Proceed to UPI Payment</button>
+    </form>
+
+    <a id="upi-button" class="buy-btn" href="#" style="display:none;" target="_blank">Pay Now via UPI</a>
   </main>
 
   <script>
@@ -22,6 +32,7 @@
     const container = document.getElementById('checkout-items');
     const totalElem = document.getElementById('checkout-total');
     const upiButton = document.getElementById('upi-button');
+    const form = document.getElementById('checkout-form');
 
     let total = 0;
     items.forEach(item => {
@@ -32,8 +43,15 @@
     });
 
     totalElem.textContent = `Total: ₹${total}`;
-    const upiID = "sabreena24126@oksbi"; // 👈 REPLACE THIS with your actual UPI ID like "labelruyah@upi"
-    upiButton.href = `upi://pay?pa=${upiID}&pn=Ruyah&am=${total}&cu=INR`;
+    const upiID = "sabreena24126@oksbi"; // 👉 Replace this with your real UPI ID
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const upiURL = `upi://pay?pa=${upiID}&pn=Ruyah&am=${total}&cu=INR`;
+      upiButton.href = upiURL;
+      upiButton.style.display = 'inline-block';
+      upiButton.scrollIntoView({ behavior: 'smooth' });
+    });
   </script>
 </body>
 </html>
