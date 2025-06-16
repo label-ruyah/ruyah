@@ -11,14 +11,39 @@
     <h1>Ruyah</h1>
     <p>Your mood, our fit</p>
   </header>
+
   <main>
-    <section class="hero">
-      <h2>Welcome to Ruyah</h2>
-      <p>Style that fits your mood — explore our collections.</p>
+    <section class="products">
+      <div class="product">
+        <img src="https://via.placeholder.com/250" alt="Product 1">
+        <h2>Beige Co-ord Set</h2>
+        <p>₹1,299</p>
+        <div class="buttons">
+          <button onclick="addToCart('Beige Co-ord Set')">Add to Cart</button>
+          <a href="upi://pay?pa=yourupi@bank&pn=Ruyah&am=1299&cu=INR" class="buy-btn">Buy Now</a>
+        </div>
+      </div>
+
+      <div class="product">
+        <img src="https://via.placeholder.com/250" alt="Product 2">
+        <h2>Maroon Kurti Set</h2>
+        <p>₹1,599</p>
+        <div class="buttons">
+          <button onclick="addToCart('Maroon Kurti Set')">Add to Cart</button>
+          <a href="upi://pay?pa=yourupi@bank&pn=Ruyah&am=1599&cu=INR" class="buy-btn">Buy Now</a>
+        </div>
+      </div>
     </section>
   </main>
+
   <footer>
     <p>&copy; 2025 Ruyah. All rights reserved.</p>
   </footer>
+
+  <script>
+    function addToCart(item) {
+      alert(item + " added to cart (functionality coming soon)");
+    }
+  </script>
 </body>
 </html>
