@@ -10,6 +10,7 @@
   <header>
     <h1>Ruyah</h1>
     <p>Your mood, our fit</p>
+    <button id="cart-icon">🛒 Cart</button>
   </header>
 
   <main>
@@ -19,7 +20,7 @@
         <h2>Beige Co-ord Set</h2>
         <p>₹1,299</p>
         <div class="buttons">
-          <button onclick="addToCart('Beige Co-ord Set')">Add to Cart</button>
+          <button onclick="addToCart('Beige Co-ord Set', 1299)">Add to Cart</button>
           <a href="upi://pay?pa=yourupi@bank&pn=Ruyah&am=1299&cu=INR" class="buy-btn">Buy Now</a>
         </div>
       </div>
@@ -29,21 +30,25 @@
         <h2>Maroon Kurti Set</h2>
         <p>₹1,599</p>
         <div class="buttons">
-          <button onclick="addToCart('Maroon Kurti Set')">Add to Cart</button>
+          <button onclick="addToCart('Maroon Kurti Set', 1599)">Add to Cart</button>
           <a href="upi://pay?pa=yourupi@bank&pn=Ruyah&am=1599&cu=INR" class="buy-btn">Buy Now</a>
         </div>
       </div>
     </section>
   </main>
 
+  <div id="cart-sidebar">
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <p id="cart-total"></p>
+    <button class="checkout">Checkout (Coming Soon)</button>
+    <button onclick="closeCart()" class="close-cart">Close</button>
+  </div>
+
   <footer>
     <p>&copy; 2025 Ruyah. All rights reserved.</p>
   </footer>
 
-  <script>
-    function addToCart(item) {
-      alert(item + " added to cart (functionality coming soon)");
-    }
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
