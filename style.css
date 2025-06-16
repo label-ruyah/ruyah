@@ -91,3 +91,24 @@ form {
   border: 2px solid #7f212f;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(127, 33, 47, 0.1)
+.pay-now-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.pay-now-btn {
+  background-color: #7f212f;
+  color: #faedcd;
+  padding: 15px 30px;
+  font-size: 20px;
+  font-weight: bold;
+  text-decoration: none;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.pay-now-btn:hover {
+  background-color: #65151f;
+}
