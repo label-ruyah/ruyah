@@ -17,21 +17,202 @@
       padding: 20px;
       text-align: center;
       font-size: 24px;
+      position: relative;
     }
-    #cart-text {
-      position: fixed;
+
+    /* Hamburger menu */
+    .menu-button {
+      position: absolute;
       top: 20px;
       right: 20px;
-      font-size: 16px;
-      background: #7f212f;
-      color: #faedcd;
-      padding: 8px 12px;
-      border-radius: 8px;
       cursor: pointer;
-      text-decoration: none;
+      width: 24px;
     }
+    .menu-button div {
+      width: 100%;
+      height: 3px;
+      background-color: #faedcd;
+      margin: 4px 0;
+      border-radius: 1px;
+    }
+
+    .dropdown {
+      display: none;
+      position: absolute;
+      top: 60px;
+      right: 20px;
+      background-color: #faedcd;
+      border: 1px solid #7f212f;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .dropdown a {
+      display: block;
+      padding: 10px 20px;
+      text-decoration: none;
+      color: #7f212f;
+      font-weight: bold;
+    }
+
+    .dropdown a:hover {
+      background-color: #f1dfbc;
+    }
+
     .products {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 20px
+      padding: 20px;
+      gap: 30px;
+    }
+
+    .product-card {
+      background-color: #fff8ec;
+      border: 2px solid #7f212f;
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(127, 33, 47, 0.1);
+      cursor: pointer;
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .product-details {
+      display: none;
+      margin-top: 10px;
+    }
+
+    select {
+      padding: 8px;
+      border: 1.5px solid #7f212f;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+      color: #7f212f;
+      background: white;
+    }
+
+    .add-to-cart-btn {
+      margin-top: 15px;
+      width: 100%;
+      background-color: #7f212f;
+      color: #faedcd;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #65151f;
+    }
+
+    .alert {
+      margin-top: 10px;
+      color: #7f212f;
+      background: #faedcd;
+      border: 1px solid #7f212f;
+      padding: 10px;
+      border-radius: 6px;
+      display: none;
+    }
+
+    @media (max-width: 600px) {
+      .products {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    Ruyah — Your Mood, Our Fit
+
+    <!-- Hamburger Button -->
+    <div class="menu-button" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+
+    <!-- Dropdown Menu -->
+    <div class="dropdown" id="menuDropdown">
+      <a href="index.html">Home</a>
+      <a href="checkout.html">Cart</a>
+    </div>
+  </header>
+
+  <section class="products">
+    <!-- Product Example -->
+    <div class="product-card" onclick="toggleDetails(this)">
+      <img src="https://via.placeholder.com/250x300?text=Kurta" alt="Kurta Image">
+      <h3>Dreamy Summer Kurta</h3>
+      <p>Price: ₹999</p>
+
+      <div class="product-details">
+        <select class="size">
+          <option value="" disabled selected>Select Size</option>
+          <option>XS</option>
+          <option>S</option>
+          <option>M</option>
+          <option>L</option>
+          <option>XL</option>
+        </select>
+        <select class="style">
+          <option value="" disabled selected>Select Style</option>
+          <option>Regular Fit</option>
+          <option>Oversized</option>
+          <option>Straight Cut</option>
+        </select>
+        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(this)">Add to Cart</button>
+        <div class="alert">Added to cart!</div>
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function toggleMenu() {
+      const dropdown = document.getElementById('menuDropdown');
+      dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function toggleDetails(card) {
+      const details = card.querySelector('.product-details');
+      details.style.display = details.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function addToCart(button) {
+      const card = button.closest('.product-card');
+      const size = card.querySelector('.size').value;
+      const style = card.querySelector('.style').value;
+      const name = card.querySelector('h3').innerText;
+      const price = card.querySelector('p').innerText;
+      const alertBox = card.querySelector('.alert');
+
+      if (!size || !style) {
+        alert("Please select size and style!");
+        return;
+      }
+
+      const cart = JSON.parse(localStorage.getItem('ruyah_cart')) || [];
+      cart.push({ name, size, style, price });
+      localStorage.setItem('ruyah_cart', JSON.stringify(cart));
+
+      alertBox.style.display = 'block';
+      setTimeout(() => {
+        alertBox.style.display = 'none';
+      }, 2000);
+    }
+  </script>
+
+</body>
+</html>
