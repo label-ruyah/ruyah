@@ -32,3 +32,8 @@ document.getElementById("cart-icon").addEventListener("click", () => {
 function closeCart() {
   document.getElementById("cart-sidebar").classList.remove("open");
 }
+const checkoutBtn = document.querySelector(".checkout");
+checkoutBtn.addEventListener("click", () => {
+  const encoded = encodeURIComponent(JSON.stringify(cart));
+  window.location.href = `checkout.html?items=${encoded}`;
+});
