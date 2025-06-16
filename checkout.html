@@ -1,115 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Checkout - Ruyah</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ruyah - Your Mood, Our Fit</title>
   <style>
     body {
+      margin: 0;
       font-family: sans-serif;
       background-color: #faedcd;
       color: #7f212f;
-      margin: 0;
-      padding: 20px;
     }
-    h1 {
-      text-align: center;
-      color: #7f212f;
-    }
-    .cart-item {
-      background: #fff8ec;
-      padding: 15px;
-      margin: 10px 0;
-      border: 1px solid #7f212f;
-      border-radius: 8px;
-    }
-    form {
-      margin-top: 30px;
-      background: #fff8ec;
-      padding: 20px;
-      border: 2px solid #7f212f;
-      border-radius: 10px;
-      max-width: 500px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 20px;
-      border: 1.5px solid #7f212f;
-      border-radius: 6px;
-      color: #7f212f;
-    }
-    button {
+
+    header {
       background-color: #7f212f;
       color: #faedcd;
-      padding: 12px 20px;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .menu-button {
+      font-size: 24px;
+      cursor: pointer;
+      background: none;
       border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      color: #faedcd;
+    }
+
+    .menu {
+      display: none;
+      position: absolute;
+      top: 55px;
+      left: 15px;
+      background-color: #fff8ec;
+      border: 2px solid #7f212f;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .menu a {
       display: block;
-      margin: auto;
+      color: #7f212f;
+      padding: 5px 0;
+      text-decoration: none;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 20px;
+    }
+
+    .product {
+      background-color: #fff8ec;
+      border: 2px solid #7f212f;
+      border-radius: 10px;
+      padding: 15px;
+      width: 250px;
+    }
+
+    .product h3 {
+      margin: 0 0 10px;
+    }
+
+    .product select, .product button {
+      width: 100%;
+      padding: 8px;
+      margin-top: 8px;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .product select {
+      border: 1px solid #7f212f;
+      background-color: #faedcd;
+      color: #7f212f;
+    }
+
+    .product button {
+      background-color: #7f212f;
+      color: #faedcd;
+      border: none;
+      font-weight: bold;
       cursor: pointer;
     }
-    button:hover {
+
+    .product button:hover {
       background-color: #65151f;
+    }
+
+    @media (max-width: 768px) {
+      .products {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
 
-  <h1>Checkout</h1>
-  <div id="cart-items"></div>
+  <header>
+    <button class="menu-button" onclick="toggleMenu()">☰</button>
+    <div>RUYAH</div>
+  </header>
 
-  <form onsubmit="submitForm(event)">
-    <label for="name">Name:</label>
-    <input type="text" id="name" required placeholder="Enter your name">
-    
-    <label for="address">Address:</label>
-    <input type="text" id="address" required placeholder="Enter your address">
-    
-    <label for="email">Email:</label>
-    <input type="email" id="email" required placeholder="Enter your email">
-    
-    <label for="phone">Phone Number:</label>
-    <input type="tel" id="phone" required placeholder="Enter your phone number">
+  <div class="menu" id="menu">
+    <a href="index.html">Home</a>
+    <a href="checkout.html">Cart</a>
+  </div>
 
-    <button type="submit">Pay Now</button>
-  </form>
+  <div class="products" id="productContainer">
+    <!-- Products will be injected here -->
+  </div>
 
   <script>
-    const cart = JSON.parse(localStorage.getItem('ruyah_cart')) || [];
-    const cartDiv = document.getElementById('cart-items');
+    const products = [
+      {
+        name: "Oversized T-shirt",
+        price: "₹599"
+      },
+      {
+        name: "Hoodie",
+        price: "₹1099"
+      },
+      {
+        name: "Crop Top",
+        price: "₹499"
+      },
+      {
+        name: "Rs.1 Product",
+        price: "₹1"
+      }
+    ];
 
-    if (cart.length === 0) {
-      cartDiv.innerHTML = "<p>Your cart is empty.</p>";
-    } else {
-      cart.forEach(item => {
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    }
+
+    function renderProducts() {
+      const container = document.getElementById('productContainer');
+      products.forEach((product, index) => {
         const div = document.createElement('div');
-        div.className = 'cart-item';
+        div.className = 'product';
         div.innerHTML = `
-          <strong>${item.name}</strong><br>
-          Size: ${item.size} <br>
-          Style: ${item.style} <br>
-          ${item.price}
+          <h3>${product.name}</h3>
+          <p>${product.price}</p>
+          <label>Size:</label>
+          <select id="size-${index}">
+            <option value="M" selected>M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+          </select>
+          <label>Style:</label>
+          <select id="style-${index}">
+            <option value="Regular Fit" selected>Regular Fit</option>
+            <option value="Oversized">Oversized</option>
+            <option value="Slim Fit">Slim Fit</option>
+          </select>
+          <button onclick="addToCart(${index})">Add to Cart</button>
+          <button onclick="buyNow(${index})">Buy Now</button>
         `;
-        cartDiv.appendChild(div);
+        container.appendChild(div);
       });
     }
 
-    function submitForm(e) {
-      e.preventDefault();
-      const upiURL = "sabreena24126@oksbi";
-      alert("Redirecting to your UPI app...");
-      window.location.href = upiURL;
+    function addToCart(index) {
+      const size = document.getElementById(`size-${index}`).value;
+      const style = document.getElementById(`style-${index}`).value;
+      const product = products[index];
+
+      const cart = JSON.parse(localStorage.getItem('ruyah_cart')) || [];
+      cart.push({ name: product.name, price: `Price: ${product.price}`, size, style });
+      localStorage.setItem('ruyah_cart', JSON.stringify(cart));
+
+      alert(`🛍️ ${product.name} added to cart!\nSize: ${size}, Style: ${style}`);
     }
+
+    function buyNow(index) {
+      addToCart(index);
+      window.location.href = 'checkout.html';
+    }
+
+    renderProducts();
   </script>
 
 </body>
 </html>
+
