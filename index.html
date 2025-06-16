@@ -3,25 +3,21 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ruyah - Home</title>
+  <title>Ruyah - Your Mood, Our Fit</title>
   <style>
     body {
       font-family: sans-serif;
       background-color: #faedcd;
       color: #7f212f;
       margin: 0;
-      padding: 0;
     }
-
     header {
       background-color: #7f212f;
       color: #faedcd;
       padding: 20px;
       text-align: center;
       font-size: 24px;
-      font-weight: bold;
     }
-
     #cart-text {
       position: fixed;
       top: 20px;
@@ -31,153 +27,11 @@
       color: #faedcd;
       padding: 8px 12px;
       border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
     }
-
     .products {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      padding: 20px;
-      gap: 30px;
-    }
-
-    .product-card {
-      background-color: #fff8ec;
-      border: 2px solid #7f212f;
-      border-radius: 12px;
-      padding: 20px;
-      width: 280px;
-      box-shadow: 0 4px 8px rgba(127, 33, 47, 0.1);
-      cursor: pointer;
-    }
-
-    .product-card img {
-      width: 100%;
-      border-radius: 10px;
-    }
-
-    .product-card h3 {
-      margin: 10px 0 5px;
-      color: #7f212f;
-    }
-
-    .product-card p {
-      font-size: 16px;
-      margin: 5px 0;
-    }
-
-    .product-details {
-      margin-top: 15px;
-      display: none;
-    }
-
-    select {
-      padding: 8px;
-      border: 1.5px solid #7f212f;
-      border-radius: 6px;
-      margin-top: 10px;
-      width: 100%;
-      color: #7f212f;
-      background: white;
-    }
-
-    .add-to-cart-btn {
-      margin-top: 15px;
-      width: 100%;
-      background-color: #7f212f;
-      color: #faedcd;
-      padding: 10px;
-      font-size: 16px;
-      font-weight: bold;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-
-    .add-to-cart-btn:hover {
-      background-color: #65151f;
-    }
-
-    .alert {
-      margin-top: 10px;
-      color: #7f212f;
-      background: #faedcd;
-      border: 1px solid #7f212f;
-      padding: 10px;
-      border-radius: 6px;
-      display: none;
-    }
-
-    @media (max-width: 600px) {
-      .products {
-        flex-direction: column;
-        align-items: center;
-      }
-    }
-  </style>
-</head>
-<body>
-
-  <header>Ruyah — Your Mood, Our Fit</header>
-  <div id="cart-text">Cart</div>
-
-  <section class="products">
-    <div class="product-card" onclick="toggleDetails(this)">
-      <img src="https://via.placeholder.com/250x300?text=Kurta" alt="Product Image">
-      <h3>Dreamy Summer Kurta</h3>
-      <p>Price: ₹999</p>
-
-      <div class="product-details">
-        <label for="size">Size:</label>
-        <select class="size">
-          <option value="" disabled selected>Select Size</option>
-          <option>XS</option>
-          <option>S</option>
-          <option>M</option>
-          <option>L</option>
-          <option>XL</option>
-        </select>
-
-        <label for="style">Style:</label>
-        <select class="style">
-          <option value="" disabled selected>Select Style</option>
-          <option>Regular Fit</option>
-          <option>Oversized</option>
-          <option>Straight Cut</option>
-        </select>
-
-        <button class="add-to-cart-btn" onclick="event.stopPropagation(); addToCart(this)">Add to Cart</button>
-        <div class="alert">Added to cart successfully! Returning...</div>
-      </div>
-    </div>
-  </section>
-
-  <script>
-    function toggleDetails(card) {
-      const details = card.querySelector('.product-details');
-      details.style.display = (details.style.display === 'block') ? 'none' : 'block';
-    }
-
-    function addToCart(button) {
-      const card = button.closest('.product-card');
-      const size = card.querySelector('.size').value;
-      const style = card.querySelector('.style').value;
-      const alertBox = card.querySelector('.alert');
-
-      if (!size || !style) {
-        alert('Please select both size and style.');
-        return;
-      }
-
-      alertBox.innerText = `Added to cart: Size - ${size}, Style - ${style}`;
-      alertBox.style.display = 'block';
-
-      setTimeout(() => {
-        alertBox.style.display = 'none';
-        window.location.href = "index.html";
-      }, 2000);
-    }
-  </script>
-
-</body>
-</html>
+      padding: 20px
