@@ -2,36 +2,149 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Ruyah – Your Mood, Our Fit</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ruyah - Home</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #faedcd;
+      color: #7f212f;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #7f212f;
+      color: #faedcd;
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    #cart-text {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 16px;
+      background: #7f212f;
+      color: #faedcd;
+      padding: 8px 12px;
+      border-radius: 8px;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
+      gap: 30px;
+    }
+
+    .product-card {
+      background-color: #fff8ec;
+      border: 2px solid #7f212f;
+      border-radius: 12px;
+      padding: 20px;
+      width: 280px;
+      box-shadow: 0 4px 8px rgba(127, 33, 47, 0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+    }
+
+    .product-card h3 {
+      margin: 10px 0 5px;
+      color: #7f212f;
+    }
+
+    .product-card p {
+      font-size: 16px;
+      margin: 5px 0;
+    }
+
+    select {
+      padding: 8px;
+      border: 1.5px solid #7f212f;
+      border-radius: 6px;
+      margin-top: 10px;
+      width: 100%;
+      color: #7f212f;
+      background: white;
+    }
+
+    .add-to-cart-btn {
+      margin-top: 15px;
+      width: 100%;
+      background-color: #7f212f;
+      color: #faedcd;
+      padding: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #65151f;
+    }
+
+    @media (max-width: 600px) {
+      .products {
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Ruyah</h1>
-    <p>Your Mood, Our Fit</p>
-  </header>
 
-  <div id="cart-icon" onclick="goToCheckout()">🛒 Cart</div>
+  <header>Ruyah — Your Mood, Our Fit</header>
+  <div id="cart-text">Cart</div>
 
-  <main>
-    <section class="products">
-      <div class="product">
-        <img src="images/product1.jpg" alt="Product 1" />
-        <h3>Kurti Set</h3>
-        <p>₹1299</p>
-        <button onclick="addToCart('Kurti Set', 1299)">Add to Cart</button>
-      </div>
-      <div class="product">
-        <img src="images/product2.jpg" alt="Product 2" />
-        <h3>Saree</h3>
-        <p>₹1899</p>
-        <button onclick="addToCart('Saree', 1899)">Add to Cart</button>
-      </div>
-    </section>
-  </main>
+  <section class="products">
+    <div class="product-card">
+      <img src="https://via.placeholder.com/250x300?text=Kurta" alt="Product Image">
+      <h3>Dreamy Summer Kurta</h3>
+      <p>Price: ₹999</p>
 
-  <div id="toast"></div>
-  <script src="script.js"></script>
+      <label for="size1">Size:</label>
+      <select id="size1">
+        <option selected disabled>Select Size</option>
+        <option>XS</option>
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+      </select>
+
+      <label for="style1">Style:</label>
+      <select id="style1">
+        <option selected disabled>Select Style</option>
+        <option>Regular Fit</option>
+        <option>Oversized</option>
+        <option>Straight Cut</option>
+      </select>
+
+      <button class="add-to-cart-btn" onclick="addToCart()">Add to Cart</button>
+    </div>
+  </section>
+
+  <script>
+    function addToCart() {
+      const size = document.getElementById('size1').value;
+      const style = document.getElementById('style1').value;
+
+      if (size === 'Select Size' || style === 'Select Style' || !size || !style) {
+        alert('Please select both size and style.');
+      } else {
+        alert(`Added to cart!\nSize: ${size}\nStyle: ${style}`);
+      }
+    }
+  </script>
+
 </body>
 </html>
