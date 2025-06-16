@@ -2,7 +2,7 @@ let cart = [];
 
 function addToCart(name, price) {
   cart.push({ name, price });
-  showToast(name + " added to cart!");
+  showToast(`${name} added to cart!`);
   updateCart();
 }
 
@@ -11,6 +11,10 @@ function updateCart() {
     const items = encodeURIComponent(JSON.stringify(cart));
     window.location.href = 'checkout.html?items=' + items;
   };
+}
+
+function goToCheckout() {
+  updateCart();
 }
 
 function showToast(message) {
