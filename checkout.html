@@ -5,85 +5,102 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ruyah - Your Mood, Our Fit</title>
   <style>
+    :root {
+      --bg-color: #faedcd;
+      --accent: #7f212f;
+    }
+
     body {
       margin: 0;
       font-family: sans-serif;
-      background-color: #faedcd;
-      color: #7f212f;
+      background-color: var(--bg-color);
+      color: var(--accent);
     }
 
     header {
-      background-color: #7f212f;
-      color: #faedcd;
+      position: sticky;
+      top: 0;
+      background-color: var(--accent);
+      color: var(--bg-color);
       padding: 15px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      z-index: 10;
     }
 
     .menu-button {
       font-size: 24px;
-      cursor: pointer;
       background: none;
       border: none;
-      color: #faedcd;
+      color: var(--bg-color);
+      cursor: pointer;
     }
 
     .menu {
       display: none;
       position: absolute;
-      top: 55px;
-      left: 15px;
+      top: 60px;
+      left: 20px;
       background-color: #fff8ec;
-      border: 2px solid #7f212f;
+      border: 2px solid var(--accent);
       border-radius: 10px;
       padding: 10px;
     }
 
     .menu a {
       display: block;
-      color: #7f212f;
+      color: var(--accent);
       padding: 5px 0;
       text-decoration: none;
     }
 
     .products {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      padding: 20px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
       gap: 20px;
+      padding: 20px;
     }
 
     .product {
       background-color: #fff8ec;
-      border: 2px solid #7f212f;
+      border: 2px solid var(--accent);
       border-radius: 10px;
       padding: 15px;
-      width: 250px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .product h3 {
-      margin: 0 0 10px;
+    .product img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .product h3, .product p {
+      margin: 5px 0;
+      text-align: center;
     }
 
     .product select, .product button {
       width: 100%;
       padding: 8px;
-      margin-top: 8px;
+      margin-top: 10px;
       border-radius: 6px;
       font-size: 14px;
     }
 
     .product select {
-      border: 1px solid #7f212f;
-      background-color: #faedcd;
-      color: #7f212f;
+      border: 1px solid var(--accent);
+      background-color: var(--bg-color);
+      color: var(--accent);
     }
 
     .product button {
-      background-color: #7f212f;
-      color: #faedcd;
+      background-color: var(--accent);
+      color: var(--bg-color);
       border: none;
       font-weight: bold;
       cursor: pointer;
@@ -94,9 +111,12 @@
     }
 
     @media (max-width: 768px) {
-      .products {
-        flex-direction: column;
-        align-items: center;
+      .product {
+        width: 100%;
+      }
+
+      .product select, .product button {
+        font-size: 16px;
       }
     }
   </style>
@@ -105,7 +125,7 @@
 
   <header>
     <button class="menu-button" onclick="toggleMenu()">☰</button>
-    <div>RUYAH</div>
+    <div><strong>RUYAH</strong></div>
   </header>
 
   <div class="menu" id="menu">
@@ -113,27 +133,29 @@
     <a href="checkout.html">Cart</a>
   </div>
 
-  <div class="products" id="productContainer">
-    <!-- Products will be injected here -->
-  </div>
+  <div class="products" id="productContainer"></div>
 
   <script>
     const products = [
       {
         name: "Oversized T-shirt",
-        price: "₹599"
+        price: "₹599",
+        img: "https://via.placeholder.com/300x300?text=Oversized+T-shirt"
       },
       {
         name: "Hoodie",
-        price: "₹1099"
+        price: "₹1099",
+        img: "https://via.placeholder.com/300x300?text=Hoodie"
       },
       {
         name: "Crop Top",
-        price: "₹499"
+        price: "₹499",
+        img: "https://via.placeholder.com/300x300?text=Crop+Top"
       },
       {
-        name: "Rs.1 Product",
-        price: "₹1"
+        name: "Sample ₹1 Item",
+        price: "₹1",
+        img: "https://via.placeholder.com/300x300?text=Rs1+Item"
       }
     ];
 
@@ -148,15 +170,16 @@
         const div = document.createElement('div');
         div.className = 'product';
         div.innerHTML = `
+          <img src="${product.img}" alt="${product.name}" />
           <h3>${product.name}</h3>
           <p>${product.price}</p>
-          <label>Size:</label>
+          <label for="size-${index}">Size:</label>
           <select id="size-${index}">
             <option value="M" selected>M</option>
             <option value="L">L</option>
             <option value="XL">XL</option>
           </select>
-          <label>Style:</label>
+          <label for="style-${index}">Style:</label>
           <select id="style-${index}">
             <option value="Regular Fit" selected>Regular Fit</option>
             <option value="Oversized">Oversized</option>
@@ -173,12 +196,10 @@
       const size = document.getElementById(`size-${index}`).value;
       const style = document.getElementById(`style-${index}`).value;
       const product = products[index];
-
       const cart = JSON.parse(localStorage.getItem('ruyah_cart')) || [];
-      cart.push({ name: product.name, price: `Price: ${product.price}`, size, style });
+      cart.push({ name: product.name, price: product.price, size, style });
       localStorage.setItem('ruyah_cart', JSON.stringify(cart));
-
-      alert(`🛍️ ${product.name} added to cart!\nSize: ${size}, Style: ${style}`);
+      alert(`${product.name} added to cart with Size: ${size} and Style: ${style}`);
     }
 
     function buyNow(index) {
@@ -191,4 +212,3 @@
 
 </body>
 </html>
-
