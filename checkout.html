@@ -1,31 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Checkout – Ruyah</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header>
     <h1>Checkout</h1>
-    <p>Confirm your mood-fit!</p>
+    <p>Your Mood, Our Fit</p>
   </header>
-
   <main>
-    <section class="products">
-      <div id="checkout-items"></div>
-      <h3 id="checkout-total"></h3>
-      <p>UPI Payment / QR Coming Soon!</p>
-      <a href="index.html" class="buy-btn">← Continue Shopping</a>
-    </section>
+    <div id="checkout-items"></div>
+    <h3 id="checkout-total"></h3>
+    <a id="upi-button" class="buy-btn" href="#" target="_blank">Pay Now via UPI</a>
   </main>
 
   <script>
-    // Pull cart data from previous page
     const params = new URLSearchParams(window.location.search);
     const items = JSON.parse(decodeURIComponent(params.get('items') || '[]'));
     const container = document.getElementById('checkout-items');
     const totalElem = document.getElementById('checkout-total');
+    const upiButton = document.getElementById('upi-button');
 
     let total = 0;
     items.forEach(item => {
@@ -36,6 +32,8 @@
     });
 
     totalElem.textContent = `Total: ₹${total}`;
+    const upiID = "YOUR_UPI_ID"; // 👈 REPLACE THIS with your actual UPI ID like "labelruyah@upi"
+    upiButton.href = `upi://pay?pa=${upiID}&pn=Ruyah&am=${total}&cu=INR`;
   </script>
 </body>
 </html>
